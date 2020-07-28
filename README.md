@@ -25,25 +25,39 @@ BERTは[東北大学乾・鈴木研究室配布の文字ベースモデル](http
 
 ``` sh download_data.sh```
 
-## 使い方
-```python main.py -i input_file_path -o output_file_path -m model_dir -d dictionary_file_path -f output_format```
+## コマンド
+- -i：入力ファイル名 
+- -o：出力ファイル名
+- -m：モデルディレクトリ
+- -d：辞書ファイル名 
+- -f：出力フォーマット (xml or json)
 
-### 使用例
-```python main.py -i sample.txt -o sample_output.txt -m data/pretrained -d data/norm_dic.txt -f xml```
+入力ファイルは１行１文のテキストファイルを用意してください． 
 
-- sample.txt
+辞書は[万病辞書](http://sociocom.jp/~data/2018-manbyo/index.html)を使用しています． 
+
+xml形式とjson形式を選択できます．それぞれの出力フォーマットについては「使い方」の出力例をご参照ください． 
+
+
+## 使用例
+### 入力 (sample.txt)
 ```
 それぞれの関節に関節液貯留は見られなかった
 その後、左半身麻痺、ＣＴにて右前側頭葉の出血を認める。
 ```
 
-- sample_output.txt (xml形式)
+### コマンド
+```python main.py -i sample.txt -o sample_output.txt -m data/pretrained -d data/norm_dic.txt -f xml```
+
+
+
+### 出力 (sample_output.txt) (xml形式)
 ```
 それぞれの関節に<CN value="かんせつえきちょりゅう;icd=E877;lv=C/freq=高;体液貯留">関節液貯留</CN>は見られなかった
 の後、<C value="ひだりはんしんまひ;icd=G819;lv=A/freq=高;片麻痺">左半身麻痺</C>、ＣＴにて右前側頭葉の<C value="しゅっけつ;icd=R58;lv=S/freq=高;出血">出血</C>を認める。
 ```
 
-- sample_output.txt (json形式)
+### 出力 (sample_output.txt) (json形式)
 ```
 [{"span": [8, 13], "type": "CN", "disease": "関節液貯留", "norm": "かんせつえきちょりゅう;icd=E877;lv=C/freq=高;体液貯留"}]
 [{"span": [4, 9], "type": "C", "disease": "左半身麻痺", "norm": "ひだりはんしんまひ;icd=G819;lv=A/freq=高;片麻痺"}, {"span": [20, 22], "type": "C", "disease": "出血", "norm": "しゅっけつ;icd=R58;lv=S/freq=高;出血"}]
