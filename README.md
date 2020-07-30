@@ -29,15 +29,17 @@ BERTは[東北大学乾・鈴木研究室配布の文字ベースモデル](http
 ## コマンド
 - -i：入力ファイル名
 - -o：出力ファイル名
-- -m：モデルディレクトリ
-- -d：辞書ファイル名
-- -f：出力フォーマット (xml or json)
+- -m：モデル（default: BERT）
+- -n:正規化方法（default: dict）
+- -f：出力フォーマット (xml or json, default:xml)
 
 入力ファイルは１行１文のテキストファイルを用意してください．
 
 辞書は[万病辞書](http://sociocom.jp/~data/2018-manbyo/index.html)を使用しています．
 
 xml形式とjson形式を選択できます．それぞれの出力フォーマットについては「使い方」の出力例をご参照ください．
+
+（注）初回の動作時に，モデルファイルと辞書ファイルのダウンロードが行われます（~/.cache/MedNERJ）
 
 
 ## 使用例
@@ -48,8 +50,7 @@ xml形式とjson形式を選択できます．それぞれの出力フォーマ�
 ```
 
 ### コマンド
-```python main.py -i sample.txt -o sample_output.txt -m data/pretrained -d data/norm_dic.csv -f xml```
-
+```python main.py -i sample.txt -o sample_output.txt -f xml```
 
 
 ### 出力 (sample_output.txt) (xml形式)
