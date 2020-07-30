@@ -53,6 +53,13 @@ class Ner(object):
 
         return inputs, lengths, tokens
 
+    def _infer_space_tag(self, pre_tag, tag, post_tag):
+        if pre_tag % 2 == 1 and post_tag == pre_tag + 1:
+            return pre_tag + 1
+        elif pre_tag != 0 and post_tag == pre_tag:
+            return pre_tag
+        return 0
+
     def integrate_subwords_tags(self, tags, lengths):
         # def merge(tags):
         #     return tags[0]
@@ -63,8 +70,13 @@ class Ner(object):
             result = []
             idx = 0
             for l in ls:
-                # tag = merge(ts[idx : idx + l])
-                tag = ts[idx : idx + l][0]
+                if l == 0:
+                    pre_tag = 0 if idx == 0 else ts[idx-1]
+                    post_tag = 0 if idx == len(ts) - 1 else ts[idx+1]
+                    tag = self._infer_space_tag(pre_tag, ts[idx], post_tag)
+                else:
+                    # tag = merge(ts[idx : idx + l])
+                    tag = ts[idx : idx + l][0]
                 idx += l
                 result.append(tag)
 
