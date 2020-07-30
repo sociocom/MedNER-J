@@ -1,4 +1,4 @@
-# MedEXJ2
+# MedNER-J
 ## 概要
 日本語の病名抽出器である[MedEX/J](http://sociocom.jp/~data/2017-MEDEX/index.html)の最新バージョンです．
 
