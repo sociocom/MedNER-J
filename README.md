@@ -39,7 +39,7 @@ xml形式とjson形式を選択できます．それぞれの出力フォーマ�
 ```
 
 #### コマンド
-```python main.py -i sample.txt -o sample_output.txt -f xml```
+```python -m medner_j -i sample.txt -o output.txt -f xml```
 
 
 #### 出力 (sample_output.txt) (xml形式)
