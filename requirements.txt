@@ -2,3 +2,4 @@ mecab-python3==1.0.1
 torch==1.4.0
 transformers==2.8.0
 allennlp==0.9.0
+git://git@github.com/sociocom/DNorm-J.git@package
