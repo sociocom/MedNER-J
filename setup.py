@@ -27,6 +27,7 @@ setup(
     author_email='ujiie@is.naist.jp',
     url='https://github.com/sociocom/MedNER-J/tree/package',
     license=license,
+    install_requires=read_requirements(),
     packages=find_packages(exclude=('tests', 'docs'))
 )
 
