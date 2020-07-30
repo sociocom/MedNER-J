@@ -2,7 +2,7 @@ import csv
 from pathlib import Path
 import pathlib
 
-from util import download_fileobj
+from .util import download_fileobj
 
 
 def load_dict(fn):

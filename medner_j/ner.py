@@ -6,16 +6,16 @@ import os
 
 from transformers import BertJapaneseTokenizer, BertModel
 from allennlp.modules.conditional_random_field import allowed_transitions
-from model import BertCrf, ListTokenizer
 import torch
 from torch.nn.utils.rnn import pad_sequence
 
-from util import create_label_vocab_from_file, convert_dict_to_xml, convert_iob_to_dict, download_fileobj
-from normalize import load_dict, DictNormalizer
+from .model import BertCrf, ListTokenizer
+from .util import create_label_vocab_from_file, convert_dict_to_xml, convert_iob_to_dict, download_fileobj
+from .normalize import load_dict, DictNormalizer
 
 DEFAULT_CACHE_PATH = os.getenv("DEFAULT_CACHE_PATH", "~/.cache")
 DEFAULT_MEDEXJ_PATH = Path(os.path.expanduser(
-        os.path.join(DEFAULT_CACHE_PATH, "MedEXJ")
+        os.path.join(DEFAULT_CACHE_PATH, "MedNERJ")
         ))
 DEFAULT_MODEL_PATH = DEFAULT_MEDEXJ_PATH / "pretrained"
 
