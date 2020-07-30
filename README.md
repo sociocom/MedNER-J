@@ -30,7 +30,7 @@ BERTは[東北大学乾・鈴木研究室配布の文字ベースモデル](http
 - -i：入力ファイル名
 - -o：出力ファイル名
 - -m：モデル（default: BERT）
-- -n:正規化方法（default: dict）
+- -n：正規化方法（default: dict）
 - -f：出力フォーマット (xml or json, default:xml)
 
 入力ファイルは１行１文のテキストファイルを用意してください．
