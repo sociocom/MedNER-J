@@ -120,17 +120,17 @@ class Ner(object):
 
         results = convert_iob_to_dict(tokens, results)
         if self.normalizer is not None:
-            self._normalize_from_dict(results)
+            self._normalize(results)
 
         if output_format == "xml":
             results = convert_dict_to_xml(tokens, results)
 
         return results
 
-    def _normalize_from_dict(self, dict_list):
+    def _normalize(self, dict_list):
         for dd in dict_list:
             for d in dd:
-                d["norm"] = self.normalizer.normalize(d["disease"])
+                d["norm"] = self.normalizer(d["disease"])
 
     @classmethod
     def from_pretrained(cls, model_name="BERT", normalizer='dict'):
@@ -160,7 +160,7 @@ class Ner(object):
         else:
             raise TypeError
 
-        ner = cls(base_model, basic_tokenizer, subword_tokenizer, model_dir=model_dir, normalizer=normalizer)
+        ner = cls(base_model, basic_tokenizer, subword_tokenizer, model_dir=model_dir, normalizer=normalizer.normalize)
 
         return ner
 
