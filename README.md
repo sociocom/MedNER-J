@@ -8,12 +8,13 @@ Bidirectional Encoder Representations from Transformers (BERT)の特徴量を元
 BERTは[東北大学乾・鈴木研究室配布の文字ベースモデル](https://www.nlp.ecei.tohoku.ac.jp/news-release/3284/)を使用しています．
 
 ## requirements
-- python 3.6.1 
-- torch==1.4.0 
-- transformers==2.8.0 
-- allennlp==0.9.0 
+- python 3.6.1
+- torch==1.4.0
+- transformers==2.8.0
+- allennlp==0.9.0
+- mecab-python3==1.0.1
 
-一括インストールは以下のコマンドで行えます． 
+一括インストールは以下のコマンドで行えます．
 
 ```pip install -r requirements.txt```
 
@@ -26,17 +27,17 @@ BERTは[東北大学乾・鈴木研究室配布の文字ベースモデル](http
 ``` sh download_data.sh```
 
 ## コマンド
-- -i：入力ファイル名 
+- -i：入力ファイル名
 - -o：出力ファイル名
 - -m：モデルディレクトリ
-- -d：辞書ファイル名 
+- -d：辞書ファイル名
 - -f：出力フォーマット (xml or json)
 
-入力ファイルは１行１文のテキストファイルを用意してください． 
+入力ファイルは１行１文のテキストファイルを用意してください．
 
-辞書は[万病辞書](http://sociocom.jp/~data/2018-manbyo/index.html)を使用しています． 
+辞書は[万病辞書](http://sociocom.jp/~data/2018-manbyo/index.html)を使用しています．
 
-xml形式とjson形式を選択できます．それぞれの出力フォーマットについては「使い方」の出力例をご参照ください． 
+xml形式とjson形式を選択できます．それぞれの出力フォーマットについては「使い方」の出力例をご参照ください．
 
 
 ## 使用例
@@ -47,7 +48,7 @@ xml形式とjson形式を選択できます．それぞれの出力フォーマ�
 ```
 
 ### コマンド
-```python main.py -i sample.txt -o sample_output.txt -m data/pretrained -d data/norm_dic.txt -f xml```
+```python main.py -i sample.txt -o sample_output.txt -m data/pretrained -d data/norm_dic.csv -f xml```
 
 
 

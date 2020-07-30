@@ -12,16 +12,19 @@ from torch.nn.utils.rnn import pad_sequence
 from util import create_label_vocab_from_file, convert_dict_to_xml, convert_iob_to_dict
 from normalize import load_dict, DictNormalizer
 
+
 class Ner(object):
     def __init__(self, label_vocab, normalizer=None):
-        self.itol = {i:l for l, i in label_vocab.items()}
-        constraints = allowed_transitions("BIO", {i:w for w, i in label_vocab.items()})
-        bert = BertModel.from_pretrained('bert-base-japanese-char')
+        self.itol = {i: l for l, i in label_vocab.items()}
+        constraints = allowed_transitions("BIO", {i: w for w, i in label_vocab.items()})
+        bert = BertModel.from_pretrained("cl-tohoku/bert-base-japanese-char")
         self.model = BertCrf(bert, len(label_vocab), constraints)
 
-        self.tokenizer = BertJapaneseTokenizer.from_pretrained('bert-base-japanese-char', do_basic_tokenize=False)
-        #self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
-        self.device = 'cpu'
+        self.tokenizer = BertJapaneseTokenizer.from_pretrained(
+            "cl-tohoku/bert-base-japanese-char", do_basic_tokenize=False
+        )
+        # self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
+        self.device = "cpu"
         self.model.to(self.device)
 
         self.normalizer = normalizer
@@ -43,7 +46,7 @@ class Ner(object):
         tokens = self.basic_tokenize(sents)
         subwords, lengths = self.subword_tokenize(tokens)
 
-        subwords = [['[CLS]'] + sub for sub in subwords]
+        subwords = [["[CLS]"] + sub for sub in subwords]
 
         inputs = self.numericalize(subwords)
         inputs = [torch.tensor(i).to(self.device) for i in inputs]
@@ -51,8 +54,8 @@ class Ner(object):
         return inputs, lengths, tokens
 
     def integrate_subwords_tags(self, tags, lengths):
-        def merge(tags):
-            return tags[0]
+        # def merge(tags):
+        #     return tags[0]
 
         results = []
 
@@ -60,7 +63,8 @@ class Ner(object):
             result = []
             idx = 0
             for l in ls:
-                tag = merge(ts[idx:idx+l])
+                # tag = merge(ts[idx : idx + l])
+                tag = ts[idx : idx + l][0]
                 idx += l
                 result.append(tag)
 
@@ -68,15 +72,17 @@ class Ner(object):
 
         return results
 
-    def predict(self, sents, output_format='xml'):
+    def predict(self, sents, output_format="xml"):
         inputs, lengths, tokens = self.encode(sents)
         results = []
 
-        for s_idx in range(0, len(inputs)+1, 16):
-            e_idx = min(len(inputs), s_idx+16)
+        for s_idx in range(0, len(inputs) + 1, 16):
+            e_idx = min(len(inputs), s_idx + 16)
             batch_inputs = inputs[s_idx:e_idx]
-            padded_batch_inputs = pad_sequence(batch_inputs, batch_first=True, padding_value=0)
-            mask = [[int(i>0) for i in ii] for ii in padded_batch_inputs]
+            padded_batch_inputs = pad_sequence(
+                batch_inputs, batch_first=True, padding_value=0
+            )
+            mask = [[int(i > 0) for i in ii] for ii in padded_batch_inputs]
             mask = torch.tensor(mask).to(self.device)
 
             tags = self.model.decode(padded_batch_inputs, mask)
@@ -90,7 +96,7 @@ class Ner(object):
         if self.normalizer is not None:
             self._normalize_from_dict(results)
 
-        if output_format == 'xml':
+        if output_format == "xml":
             results = convert_dict_to_xml(tokens, results)
 
         return results
@@ -98,25 +104,27 @@ class Ner(object):
     def _normalize_from_dict(self, dict_list):
         for dd in dict_list:
             for d in dd:
-                d['norm'] = self.normalizer.normalize(d['disease'])
-
+                d["norm"] = self.normalizer.normalize(d["disease"])
 
     @classmethod
     def from_pretrained(cls, fn, normalizer=None):
         if not isinstance(fn, pathlib.PurePath):
             fn = Path(fn)
 
-        label_vocab = create_label_vocab_from_file(str(fn / 'labels.txt'))
+        label_vocab = create_label_vocab_from_file(str(fn / "labels.txt"))
 
         ner = cls(label_vocab, normalizer)
-        ner.model.load_state_dict(torch.load(str(fn / 'final.model')))
+        ner.model.load_state_dict(
+            torch.load(str(fn / "final.model"), map_location=ner.device)
+        )
 
         return ner
+
 
 if __name__ == "__main__":
     fn = Path(sys.argv[1])
     sents = []
-    with open(str(fn), 'r') as f:
+    with open(str(fn), "r") as f:
         for line in f:
             line = line.rstrip()
             if not line:
@@ -124,8 +132,8 @@ if __name__ == "__main__":
             sents.append(line)
 
     print(sents)
-    dic = load_dict('norm_dic.csv')
+    dic = load_dict("norm_dic.csv")
     normalizer = DictNormalizer(dic)
-    model = Ner.from_pretrained(Path('pretrained'), normalizer=normalizer)
+    model = Ner.from_pretrained(Path("pretrained"), normalizer=normalizer)
     results = model.predict(sents)
     print(results)
