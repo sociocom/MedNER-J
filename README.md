@@ -54,7 +54,7 @@ xml形式とjson形式を選択できます．それぞれの出力フォーマ�
 [{"span": [4, 9], "type": "C", "disease": "左半身麻痺", "norm": "ひだりはんしんまひ;icd=G819;lv=A/freq=高;片麻痺"}, {"span": [20, 22], "type": "C", "disease": "出血", "norm": "しゅっけつ;icd=R58;lv=S/freq=高;出血"}]
 ```
 
-### スクリプト
+### スクリプトから
 ```
 from medner_j import Ner
 
