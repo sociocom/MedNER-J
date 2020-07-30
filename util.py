@@ -1,3 +1,10 @@
+import shutil
+import requests
+
+def download_fileobj(src, dst):
+    res = requests.get(src, stream=True)
+    with open(dst, "wb") as f:
+        shutil.copyfileobj(res.raw, f)
 
 def convert_iob_to_dict(tokens, iobs):
     results = []

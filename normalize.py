@@ -2,14 +2,7 @@ import csv
 from pathlib import Path
 import pathlib
 
-class DictNormalizer(object):
-    def __init__(self, dic):
-        self.dic = dic
-
-    def normalize(self, word):
-        if word in self.dic:
-            return self.dic[word]
-        return ''
+from util import download_fileobj
 
 
 def load_dict(fn):
@@ -23,5 +16,21 @@ def load_dict(fn):
             res[row[0]] = row[1]
 
     return res
+
+
+class DictNormalizer(object):
+    def __init__(self, fn):
+        if not isinstance(fn, pathlib.PurePath):
+            fn = Path(fn)
+
+        if not fn.is_file():
+            download_fileobj("http://aoi.naist.jp/MedEXJ2/norm_dic.csv", str(fn))
+
+        self.dic = load_dict(fn)
+
+    def normalize(self, word):
+        if word in self.dic:
+            return self.dic[word]
+        return ''
 
 

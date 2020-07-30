@@ -3,6 +3,15 @@ import torch
 import torch.nn as nn
 from transformers import BertModel
 
+
+class ListTokenizer(object):
+    def __init__(self):
+        pass
+
+    def tokenize(self, text):
+        return list(text)
+
+
 class BertCrf(nn.Module):
     def __init__(self, bert, num_tags, constraints):
         super(BertCrf, self).__init__()
