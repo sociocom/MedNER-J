@@ -154,13 +154,21 @@ class Ner(object):
             download_fileobj(src_url + "/labels.txt", model_dir / "labels.txt")
 
         if isinstance(normalizer, str):
-            normalizer = DictNormalizer(DEFAULT_MEDEXJ_PATH / "norm_dic.csv")
+            if normalizer == "dnorm":
+                try:
+                    from dnorm_j import DNorm
+                    normalizer = DNorm.from_pretrained().normalize
+                except:
+                    normalizer = DictNormalizer(DEFAULT_MEDEXJ_PATH / "norm_dic.csv").normalize
+            else:
+                normalizer = DictNormalizer(DEFAULT_MEDEXJ_PATH / "norm_dic.csv").normalize
+
         elif isinstance(normalizer, object):
             normalizer = normalizer
         else:
             raise TypeError
 
-        ner = cls(base_model, basic_tokenizer, subword_tokenizer, model_dir=model_dir, normalizer=normalizer.normalize)
+        ner = cls(base_model, basic_tokenizer, subword_tokenizer, model_dir=model_dir, normalizer=normalizer)
 
         return ner
 
