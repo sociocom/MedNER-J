@@ -71,6 +71,7 @@ python -m medner_j -i sample.txt -o output.txt -f xml
 
 ### コマンド
 `python3 main.py -i sample.txt -o sample_output.txt -f xml -n dnorm`
+
 `python3 main.py -f xml -d dnorm < sample.txt > sample_output.txt`
 
 
