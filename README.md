@@ -2,7 +2,7 @@
 ## 概要
 <!-- 日本語の病名抽出器である[MedEX/J](http://sociocom.jp/~data/2017-MEDEX/index.html)の最新バージョンです． -->
 
-日本語の医療テキストから病名を抽出するシステムです．
+日本語の医療テキストから病名を抽出・正規化するシステムです．
 [MedEX/J](http://sociocom.jp/~data/2017-MEDEX/index.html)の上位バージョンに相当します．
 
 ## 手法
@@ -21,9 +21,8 @@ pip install .
 - -i：入力ファイル名
 - -o：出力ファイル名
 - -m：モデル（default: BERT）
-- -n：正規化方法（default: dict）
+- -n：正規化方法（dict or dnorm, default: dict）
 - -f：出力フォーマット (xml or json, default:xml)
-
 
 ```
 python -m medner_j -i sample.txt -o output.txt -f xml
@@ -31,12 +30,21 @@ python -m medner_j -i sample.txt -o output.txt -f xml
 
 入力ファイルは１行１文のテキストファイルを用意してください．
 
-辞書は[万病辞書](http://sociocom.jp/~data/2018-manbyo/index.html)を使用しています．
-
 XML形式とJSON形式を選択できます．それぞれの出力フォーマットについては「使い方」の出力例をご参照ください．
 
 （注）初回の動作時に，モデルファイルと辞書ファイルのダウンロードが行われます（`~/.cache/MedNERJ`）
 
+### 正規化
+辞書による正規化（dict）と機械学習による正規化（dnorm）があります．
+
+#### 辞書による正規化
+辞書は[万病辞書](http://sociocom.jp/~data/2018-manbyo/index.html)を使用します．
+略語の展開や類似語検索などは行いません．
+
+#### 機械学習による正規化
+[DNormの日本語実装](https://github.com/sociocom/DNorm-J)を使用します．
+
+略語辞書による略語の展開も行います．詳しくはリンク先をご参照ください．
 
 ### 使用例
 #### 入力 (sample.txt)
