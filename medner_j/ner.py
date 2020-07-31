@@ -114,9 +114,9 @@ class Ner(object):
             tags = self.model.decode(padded_batch_inputs, mask)
             tags = [t[0] for t in tags]
             tags = self.integrate_subwords_tags(tags, lengths[s_idx:e_idx])
-            results.append(tags)
+            results.extend(tags)
 
-        results = [[self.itol[t] for t in tt] for tt in tags]
+        results = [[self.itol[t] for t in tt] for tt in results]
 
         results = convert_iob_to_dict(tokens, results)
         if self.normalizer is not None:
@@ -184,8 +184,6 @@ if __name__ == "__main__":
             sents.append(line)
 
     print(sents)
-    dic = load_dict("norm_dic.csv")
-    normalizer = DictNormalizer(dic)
-    model = Ner.from_pretrained(Path("pretrained"), normalizer=normalizer)
+    model = Ner.from_pretrained()
     results = model.predict(sents)
     print(results)

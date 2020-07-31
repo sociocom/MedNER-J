@@ -9,6 +9,7 @@ def download_fileobj(src, dst):
 def convert_iob_to_dict(tokens, iobs):
     results = []
     for tt, ii in zip(tokens, iobs):
+        print(list(zip(tt, ii)))
         assert len(tt) == len(ii), ''
 
         ii = ['O'] + ii + ['O']
