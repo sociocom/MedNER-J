@@ -46,6 +46,8 @@ python -m medner_j -i sample.txt -o output.txt -f xml
 
 （注）初回の動作時に，モデルファイルと辞書ファイルのダウンロードが行われます（`~/.cache/MedNERJ`）
 
+入出力に関しては，ファイル名を指定しなければ，標準入力・標準出力を使用します．
+
 ## 正規化
 辞書による正規化（dict）と機械学習による正規化（dnorm）があります．
 
@@ -68,7 +70,8 @@ python -m medner_j -i sample.txt -o output.txt -f xml
 ```
 
 ### コマンド
-`python3 main.py -i sample.txt -o sample_output.txt -f xml`
+`python3 main.py -i sample.txt -o sample_output.txt -f xml -n dnorm`
+`python3 main.py -f xml -d dnorm < sample.txt > sample_output.txt`
 
 
 ### 出力 (sample_output.txt) (xml形式)
