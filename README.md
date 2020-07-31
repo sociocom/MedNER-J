@@ -90,6 +90,23 @@ results = model.predict(sents)
 print(results)
 ```
 
+### 自作正規化関数
+```
+from medner_j import Ner
+
+class UserNormalizer(object):
+    def __init__(self, normalize_dic):
+        self.normalize_dic = normalize_dic
+    
+    def normalize(self, word):
+        return self.normalize_dic.get(word)
+   
+model = Ner.from_pretrained(normalizer=UserNormalizer.normalize)
+```
+
+例えば上記のような関数をnormalizerに渡すことで，任意の正規化を行えます
+
+
 ## 開発
 
 - 開発者は仮想環境内で `install.sh` を実行してください
