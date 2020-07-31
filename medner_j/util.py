@@ -1,6 +1,7 @@
-import shutil
 import requests
 from logging import getLogger, StreamHandler, INFO
+
+from tqdm import tqdm
 
 
 logger = getLogger(__name__)
@@ -15,12 +16,17 @@ def download_fileobj(src, dst):
     logger.info("Downloading %s to %s", src, dst)
 
     file_size = int(requests.head(src).headers["content-length"])
-    logger.info("File size: %s", str(file_size))
+    logger.info("File size of %s: %s KB", src, str(file_size // 1024))
 
     res = requests.get(src, stream=True)
+    pbar = tqdm(total=file_size, unit="B", unit_scale=True)
 
     with open(dst, "wb") as f:
-        shutil.copyfileobj(res.raw, f)
+        for chunk in res.iter_content(chunk_size=1024):
+            f.write(chunk)
+            pbar.update(len(chunk))
+        pbar.close()
+        #shutil.copyfileobj(res.raw, f)
 
     logger.info("Finish downloading %s to %s", src, dst)
 
