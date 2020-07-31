@@ -1,6 +1,9 @@
 # MedNER-J
 ## 概要
-日本語の病名抽出器である[MedEX/J](http://sociocom.jp/~data/2017-MEDEX/index.html)の最新バージョンです．
+<!-- 日本語の病名抽出器である[MedEX/J](http://sociocom.jp/~data/2017-MEDEX/index.html)の最新バージョンです． -->
+
+日本語の医療テキストから病名を抽出するシステムです．
+[MedEX/J](http://sociocom.jp/~data/2017-MEDEX/index.html)の上位バージョンに相当します．
 
 ## 手法
 Bidirectional Encoder Representations from Transformers (BERT)の特徴量を元に，条件付き確率場 (Conditional Random Fields: CRF) で病名の抽出を行っています．
@@ -9,7 +12,9 @@ BERTは[東北大学乾・鈴木研究室配布の文字ベースモデル](http
 
 ## インストール
 python >= 3.6.1
-```python setup.py install```
+```
+pip install .
+```
 
 ## 使い方
 ### コマンド
@@ -20,15 +25,17 @@ python >= 3.6.1
 - -f：出力フォーマット (xml or json, default:xml)
 
 
-```python -m medner_j -i sample.txt -o output.txt -f xml```
+```
+python -m medner_j -i sample.txt -o output.txt -f xml
+```
 
 入力ファイルは１行１文のテキストファイルを用意してください．
 
 辞書は[万病辞書](http://sociocom.jp/~data/2018-manbyo/index.html)を使用しています．
 
-xml形式とjson形式を選択できます．それぞれの出力フォーマットについては「使い方」の出力例をご参照ください．
+XML形式とJSON形式を選択できます．それぞれの出力フォーマットについては「使い方」の出力例をご参照ください．
 
-（注）初回の動作時に，モデルファイルと辞書ファイルのダウンロードが行われます（~/.cache/MedNERJ）
+（注）初回の動作時に，モデルファイルと辞書ファイルのダウンロードが行われます（`~/.cache/MedNERJ`）
 
 
 ### 使用例
@@ -39,7 +46,9 @@ xml形式とjson形式を選択できます．それぞれの出力フォーマ�
 ```
 
 #### コマンド
-```python -m medner_j -i sample.txt -o output.txt -f xml```
+```
+python -m medner_j -i sample.txt -o output.txt -f xml
+```
 
 
 #### 出力 (sample_output.txt) (xml形式)
@@ -62,8 +71,13 @@ sents = [
   "一方で、本邦では体交時の合併症への懸念、マンパワーの不足により腹臥位療法の実施が困難な場合が多い。",
   "腹臥位以外の時間は両側への完全側臥位を実施した。"
   ]
-  
+
 model = Ner.from_pretrained()
 results = model.predict(sents)
 print(results)
 ```
+
+## 開発
+
+- 開発者は仮想環境内で `install.sh` を実行してください
+- `fresh_install.sh` を使うとモデルファイルなどのキャッシュも削除します
