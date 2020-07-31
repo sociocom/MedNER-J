@@ -16,7 +16,7 @@ BERTは[東北大学乾・鈴木研究室配布の文字ベースモデル](http
 
 一括インストールは以下のコマンドで行えます．
 
-```pip install -r requirements.txt```
+```python3 -m pip install -r requirements.txt```
 
 ## データ
 - 学習済みモデルファイル
@@ -50,7 +50,7 @@ xml形式とjson形式を選択できます．それぞれの出力フォーマ�
 ```
 
 ### コマンド
-```python main.py -i sample.txt -o sample_output.txt -f xml```
+```python3 main.py -i sample.txt -o sample_output.txt -f xml```
 
 
 ### 出力 (sample_output.txt) (xml形式)
