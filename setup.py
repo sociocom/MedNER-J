@@ -34,6 +34,6 @@ setup(
         "torch==1.4.0",
         "transformers==2.8.0",
         "allennlp==0.9.0",
+        "dnorm_j @ git+https://github.com/sociocom/DNorm-J.git"
     ],
-    dependency_links=["https://github.com/sociocom/DNorm-J/tarball/package"],
 )
