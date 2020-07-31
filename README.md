@@ -2,7 +2,7 @@
 ## 概要
 <!-- 日本語の病名抽出器である[MedEX/J](http://sociocom.jp/~data/2017-MEDEX/index.html)の最新バージョンです． -->
 
-日本語の医療テキストから病名を抽出・正規化するシステムです．
+日本語の医療テキストから病名を抽出するシステムです．
 [MedEX/J](http://sociocom.jp/~data/2017-MEDEX/index.html)の上位バージョンに相当します．
 
 ## 手法
@@ -10,19 +10,31 @@ Bidirectional Encoder Representations from Transformers (BERT)の特徴量を元
 
 BERTは[東北大学乾・鈴木研究室配布の文字ベースモデル](https://www.nlp.ecei.tohoku.ac.jp/news-release/3284/)を使用しています．
 
-## インストール
-python >= 3.6.1
-```
-pip install .
-```
+## requirements
+- python 3.6.1
+- torch==1.4.0
+- transformers==2.8.0
+- allennlp==0.9.0
+- mecab-python3==1.0.1
 
-## 使い方
-### コマンド
-- -i：入力ファイル名
-- -o：出力ファイル名
-- -m：モデル（default: BERT）
-- -n：正規化方法（dict or dnorm, default: dict）
-- -f：出力フォーマット (xml or json, default:xml)
+一括インストールは以下のコマンドで行えます．
+
+`python3 -m pip install -r requirements.txt`
+
+<!-- ## データ
+- 学習済みモデルファイル
+- 病名正規化用辞書ファイル
+
+のダウンロードが必要です．以下のコマンドでダウンロードを行えます．
+
+`sh download_data.sh` -->
+
+## コマンド
+- `-i`：入力ファイル名
+- `-o`：出力ファイル名
+<!-- - -m：モデル（default: BERT） -->
+<!-- - -n：正規化方法（default: dict） -->
+- `-f`：出力フォーマット (`xml` or `json`, default:`xml`)
 
 ```
 python -m medner_j -i sample.txt -o output.txt -f xml
@@ -44,8 +56,9 @@ python -m medner_j -i sample.txt -o output.txt -f xml
 ### 機械学習による正規化
 [DNormの日本語実装](https://github.com/sociocom/DNorm-J)を使用します．
 
-略語辞書による略語の展開も行います．詳しくはリンク先をご参照ください．
+XML形式とJSON形式を選択できます．それぞれの出力フォーマットについては「使い方」の出力例をご参照ください．
 
+（注）初回の動作時に，モデルファイルと辞書ファイルのダウンロードが行われます（`~/.cache/MedNERJ`）
 
 ### （任意の関数による正規化）
 スクリプトから使用する場合，任意の呼び出し可能な関数による正規化を行えます．
@@ -59,9 +72,7 @@ python -m medner_j -i sample.txt -o output.txt -f xml
 ```
 
 ### コマンド
-```
-python -m medner_j -i sample.txt -o output.txt -f xml
-```
+`python3 main.py -i sample.txt -o sample_output.txt -f xml`
 
 
 ### 出力 (sample_output.txt) (xml形式)
