@@ -2,7 +2,7 @@
 ## 概要
 <!-- 日本語の病名抽出器である[MedEX/J](http://sociocom.jp/~data/2017-MEDEX/index.html)の最新バージョンです． -->
 
-日本語の医療テキストから病名を抽出するシステムです．
+日本語の医療テキストから病名を抽出・正規化するシステムです．
 [MedEX/J](http://sociocom.jp/~data/2017-MEDEX/index.html)の上位バージョンに相当します．
 
 ## 手法
@@ -21,9 +21,8 @@ pip install .
 - -i：入力ファイル名
 - -o：出力ファイル名
 - -m：モデル（default: BERT）
-- -n：正規化方法（default: dict）
+- -n：正規化方法（dict or dnorm, default: dict）
 - -f：出力フォーマット (xml or json, default:xml)
-
 
 ```
 python -m medner_j -i sample.txt -o output.txt -f xml
@@ -31,39 +30,53 @@ python -m medner_j -i sample.txt -o output.txt -f xml
 
 入力ファイルは１行１文のテキストファイルを用意してください．
 
-辞書は[万病辞書](http://sociocom.jp/~data/2018-manbyo/index.html)を使用しています．
-
-XML形式とJSON形式を選択できます．それぞれの出力フォーマットについては「使い方」の出力例をご参照ください．
+出力フォーマットとして，XML形式とJSON形式を選択できます．それぞれの出力フォーマットについては「使い方」の出力例をご参照ください．
 
 （注）初回の動作時に，モデルファイルと辞書ファイルのダウンロードが行われます（`~/.cache/MedNERJ`）
 
+## 正規化
+辞書による正規化（dict）と機械学習による正規化（dnorm）があります．
 
-### 使用例
-#### 入力 (sample.txt)
+### 辞書による正規化
+辞書は[万病辞書](http://sociocom.jp/~data/2018-manbyo/index.html)を使用します．
+略語の展開や類似語検索などは行いません．
+
+### 機械学習による正規化
+[DNormの日本語実装](https://github.com/sociocom/DNorm-J)を使用します．
+
+略語辞書による略語の展開も行います．詳しくはリンク先をご参照ください．
+
+
+### （任意の関数による正規化）
+スクリプトから使用する場合，任意の呼び出し可能な関数による正規化を行えます．
+
+
+## コマンドから
+### 入力 (sample.txt)
 ```
 それぞれの関節に関節液貯留は見られなかった
 その後、左半身麻痺、ＣＴにて右前側頭葉の出血を認める。
 ```
 
-#### コマンド
+### コマンド
 ```
 python -m medner_j -i sample.txt -o output.txt -f xml
 ```
 
 
-#### 出力 (sample_output.txt) (xml形式)
+### 出力 (sample_output.txt) (xml形式)
 ```
 それぞれの関節に<CN value="かんせつえきちょりゅう;icd=E877;lv=C/freq=高;体液貯留">関節液貯留</CN>は見られなかった
 の後、<C value="ひだりはんしんまひ;icd=G819;lv=A/freq=高;片麻痺">左半身麻痺</C>、ＣＴにて右前側頭葉の<C value="しゅっけつ;icd=R58;lv=S/freq=高;出血">出血</C>を認める。
 ```
 
-#### 出力 (sample_output.txt) (json形式)
+### 出力 (sample_output.txt) (json形式)
 ```
 [{"span": [8, 13], "type": "CN", "disease": "関節液貯留", "norm": "かんせつえきちょりゅう;icd=E877;lv=C/freq=高;体液貯留"}]
 [{"span": [4, 9], "type": "C", "disease": "左半身麻痺", "norm": "ひだりはんしんまひ;icd=G819;lv=A/freq=高;片麻痺"}, {"span": [20, 22], "type": "C", "disease": "出血", "norm": "しゅっけつ;icd=R58;lv=S/freq=高;出血"}]
 ```
 
-### スクリプトから
+## スクリプトから
 ```
 from medner_j import Ner
 
@@ -72,10 +85,27 @@ sents = [
   "腹臥位以外の時間は両側への完全側臥位を実施した。"
   ]
 
-model = Ner.from_pretrained()
+model = Ner.from_pretrained(normalizer="dict")
 results = model.predict(sents)
 print(results)
 ```
+
+### 自作正規化関数
+```
+from medner_j import Ner
+
+class UserNormalizer(object):
+    def __init__(self, normalize_dic):
+        self.normalize_dic = normalize_dic
+    
+    def normalize(self, word):
+        return self.normalize_dic.get(word)
+   
+model = Ner.from_pretrained(normalizer=UserNormalizer.normalize)
+```
+
+例えば上記のような関数をnormalizerに渡すことで，任意の正規化を行えます
+
 
 ## 開発
 
