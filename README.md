@@ -63,16 +63,18 @@ python -m medner_j -i sample.txt -o output.txt -f xml
 
 
 ## コマンドから
+### コマンド
+`python3 main.py -i sample.txt -o sample_output.txt -f xml -n dnorm`
+
+もしくは
+
+`python3 main.py -f xml -d dnorm < sample.txt > sample_output.txt`
+
 ### 入力 (sample.txt)
 ```
 それぞれの関節に関節液貯留は見られなかった
 その後、左半身麻痺、ＣＴにて右前側頭葉の出血を認める。
 ```
-
-### コマンド
-`python3 main.py -i sample.txt -o sample_output.txt -f xml -n dnorm`
-
-`python3 main.py -f xml -d dnorm < sample.txt > sample_output.txt`
 
 
 ### 出力 (sample_output.txt) (xml形式)
