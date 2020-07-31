@@ -55,5 +55,5 @@ else:
     print(outputs)
     #with open(str(ofn), 'w') as f:
     with args.output_file as f:
-        f.write('\n'.join(outputs))
+        f.write('\n'.join(outputs) + '\n')
 
