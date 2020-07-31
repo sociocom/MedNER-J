@@ -10,38 +10,51 @@ from model import BertCrf, ListTokenizer
 import torch
 from torch.nn.utils.rnn import pad_sequence
 
-from util import create_label_vocab_from_file, convert_dict_to_xml, convert_iob_to_dict, download_fileobj
+from util import (
+    create_label_vocab_from_file,
+    convert_dict_to_xml,
+    convert_iob_to_dict,
+    download_fileobj,
+)
 from normalize import load_dict, DictNormalizer
 
 DEFAULT_CACHE_PATH = os.getenv("DEFAULT_CACHE_PATH", "~/.cache")
-DEFAULT_MEDEXJ_PATH = Path(os.path.expanduser(
-        os.path.join(DEFAULT_CACHE_PATH, "MedEXJ")
-        ))
-DEFAULT_MODEL_PATH = DEFAULT_MEDEXJ_PATH / "pretrained"
+DEFAULT_MEDNERJ_PATH = Path(
+    os.path.expanduser(os.path.join(DEFAULT_CACHE_PATH, "MedNERJ"))
+)
+DEFAULT_MODEL_PATH = DEFAULT_MEDNERJ_PATH / "pretrained"
 
 BERT_URL = "http://aoi.naist.jp/MedEXJ2/pretrained"
 
 
 class Ner(object):
-    def __init__(self, base_model, basic_tokenizer, subword_tokenizer, model_dir=DEFAULT_MODEL_PATH, normalizer=None):
+    def __init__(
+        self,
+        base_model,
+        basic_tokenizer,
+        subword_tokenizer,
+        model_dir=DEFAULT_MODEL_PATH,
+        normalizer=None,
+    ):
         if not isinstance(model_dir, pathlib.PurePath):
             model_dir = Path(model_dir)
 
-        label_vocab = create_label_vocab_from_file(str(model_dir / 'labels.txt'))
-        self.itol = {i:l for l, i in label_vocab.items()}
-        constraints = allowed_transitions("BIO", {i:w for w, i in label_vocab.items()})
-        self.model = BertCrf(base_model, len(label_vocab), constraints)
-        self.model.load_state_dict(torch.load(str(model_dir / 'final.model')))
+        # self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
+        self.device = "cpu"
 
-        #self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
-        self.device = 'cpu'
+        label_vocab = create_label_vocab_from_file(str(model_dir / "labels.txt"))
+        self.itol = {i: l for l, i in label_vocab.items()}
+        constraints = allowed_transitions("BIO", {i: w for w, i in label_vocab.items()})
+        self.model = BertCrf(base_model, len(label_vocab), constraints)
+        self.model.load_state_dict(
+            torch.load(str(model_dir / "final.model"), map_location=self.device)
+        )
         self.model.to(self.device)
 
         self.basic_tokenizer = basic_tokenizer
         self.subword_tokenizer = subword_tokenizer
 
         self.normalizer = normalizer
-
 
     def basic_tokenize(self, sents):
         return [self.basic_tokenizer.tokenize(s) for s in sents]
@@ -85,8 +98,8 @@ class Ner(object):
             idx = 0
             for l in ls:
                 if l == 0:
-                    pre_tag = 0 if idx == 0 else ts[idx-1]
-                    post_tag = 0 if idx == len(ts) - 1 else ts[idx+1]
+                    pre_tag = 0 if idx == 0 else ts[idx - 1]
+                    post_tag = 0 if idx == len(ts) - 1 else ts[idx + 1]
                     tag = self._infer_space_tag(pre_tag, ts[idx], post_tag)
                 else:
                     # tag = merge(ts[idx : idx + l])
@@ -133,14 +146,16 @@ class Ner(object):
                 d["norm"] = self.normalizer.normalize(d["disease"])
 
     @classmethod
-    def from_pretrained(cls, model_name="BERT", normalizer='dict'):
+    def from_pretrained(cls, model_name="BERT", normalizer="dict"):
         assert model_name == "BERT", "BERT以外未実装です"
         if model_name == "BERT":
             model_dir = DEFAULT_MODEL_PATH
             src_url = BERT_URL
-            base_model = BertModel.from_pretrained('cl-tohoku/bert-base-japanese-char')
+            base_model = BertModel.from_pretrained("cl-tohoku/bert-base-japanese-char")
             basic_tokenizer = ListTokenizer()
-            subword_tokenizer = BertJapaneseTokenizer.from_pretrained('bert-base-japanese-char', do_basic_tokenize=False)
+            subword_tokenizer = BertJapaneseTokenizer.from_pretrained(
+                "cl-tohoku/bert-base-japanese-char", do_basic_tokenize=False
+            )
 
         if not model_dir.parent.is_dir():
             model_dir.parent.mkdir()
@@ -154,13 +169,19 @@ class Ner(object):
             download_fileobj(src_url + "/labels.txt", model_dir / "labels.txt")
 
         if isinstance(normalizer, str):
-            normalizer = DictNormalizer(DEFAULT_MEDEXJ_PATH / "norm_dic.csv")
+            normalizer = DictNormalizer(DEFAULT_MEDNERJ_PATH / "norm_dic.csv")
         elif isinstance(normalizer, object):
             normalizer = normalizer
         else:
             raise TypeError
 
-        ner = cls(base_model, basic_tokenizer, subword_tokenizer, model_dir=model_dir, normalizer=normalizer)
+        ner = cls(
+            base_model,
+            basic_tokenizer,
+            subword_tokenizer,
+            model_dir=model_dir,
+            normalizer=normalizer,
+        )
 
         return ner
 
