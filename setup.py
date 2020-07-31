@@ -34,6 +34,7 @@ setup(
         "torch==1.4.0",
         "transformers==2.8.0",
         "allennlp==0.9.0",
+        "tqdm",
         "dnorm_j @ git+https://github.com/sociocom/DNorm-J.git"
     ],
 )
