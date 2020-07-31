@@ -44,6 +44,9 @@ XML形式とJSON形式を選択できます．それぞれの出力フォーマ�
 ### 機械学習による正規化
 [DNormの日本語実装](https://github.com/sociocom/DNorm-J)を使用します．
 
+### 任意の関数による正規化
+スクリプトから使用する場合，任意の呼び出し可能な関数による正規化を行えます．
+
 略語辞書による略語の展開も行います．詳しくはリンク先をご参照ください．
 
 ### 使用例
@@ -80,7 +83,7 @@ sents = [
   "腹臥位以外の時間は両側への完全側臥位を実施した。"
   ]
 
-model = Ner.from_pretrained()
+model = Ner.from_pretrained(normalizer="dict")
 results = model.predict(sents)
 print(results)
 ```
