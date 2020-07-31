@@ -55,8 +55,12 @@ python -m medner_j -i sample.txt -o output.txt -f xml
 辞書は[万病辞書](http://sociocom.jp/~data/2018-manbyo/index.html)を使用します．
 略語の展開や類似語検索などは行いません．
 
+フォーマット例：関節液貯留ー＞かんせつえきちょりゅう;icd=E877;lv=C/freq=高;体液貯留
+
 ### 機械学習による正規化
 [DNormの日本語実装](https://github.com/sociocom/DNorm-J)を使用します．
+
+フォーマット例：関節液貯留ー＞体液貯留
 
 ### （任意の関数による正規化）
 スクリプトから使用する場合，任意の呼び出し可能な関数による正規化を行えます．
@@ -64,11 +68,11 @@ python -m medner_j -i sample.txt -o output.txt -f xml
 
 ## コマンドから
 ### コマンド
-`python3 main.py -i sample.txt -o sample_output.txt -f xml -n dnorm`
+`python3 main.py -i sample.txt -o sample_output.txt -f xml`
 
 もしくは
 
-`python3 main.py -f xml -d dnorm < sample.txt > sample_output.txt`
+`python3 main.py -f xml < sample.txt > sample_output.txt`
 
 ### 入力 (sample.txt)
 ```
