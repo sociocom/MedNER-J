@@ -28,10 +28,6 @@ setup(
     author_email="ujiie@is.naist.jp",
     url="https://github.com/sociocom/MedNER-J/tree/package",
     license=license,
-<<<<<<< HEAD
-    install_requires=read_requirements(),
-    packages=find_packages(exclude=('tests', 'docs'))
-=======
     packages=find_packages(exclude=("tests", "docs")),
     install_requires=[
         "mecab-python3==1.0.1",
@@ -40,5 +36,4 @@ setup(
         "allennlp==0.9.0",
     ],
     dependency_links=["https://github.com/sociocom/DNorm-J/tarball/package"],
->>>>>>> 3d5fa6c50c8f3b1c3e4fd6458c761b9675b3839c
 )
