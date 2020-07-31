@@ -3,6 +3,7 @@ from pathlib import Path
 import itertools
 import sys
 import os
+from logging import getLogger, StreamHandler, INFO
 
 from transformers import BertJapaneseTokenizer, BertModel
 from allennlp.modules.conditional_random_field import allowed_transitions
@@ -17,6 +18,14 @@ from .util import (
     download_fileobj,
 )
 from .normalize import load_dict, DictNormalizer
+
+
+logger = getLogger(__name__)
+handler = StreamHandler()
+handler.setLevel(INFO)
+logger.setLevel(INFO)
+logger.addHandler(handler)
+logger.propagate = False
 
 DEFAULT_CACHE_PATH = os.getenv("DEFAULT_CACHE_PATH", "~/.cache")
 DEFAULT_MEDNERJ_PATH = Path(
@@ -158,32 +167,42 @@ class Ner(object):
             )
 
         if not model_dir.parent.is_dir():
+            logger.info("creating %s", str(model_dir.parent))
             model_dir.parent.mkdir()
 
         if not model_dir.is_dir():
+            logger.info("creating %s", str(model_dir))
             model_dir.mkdir()
 
         if not (model_dir / "final.model").is_file():
+            logger.info("not found %s", str(model_dir / "final.model"))
             download_fileobj(src_url + "/final.model", model_dir / "final.model")
         if not (model_dir / "labels.txt").is_file():
+            logger.info("not found %s", str(model_dir / "labels.txt"))
             download_fileobj(src_url + "/labels.txt", model_dir / "labels.txt")
 
         if isinstance(normalizer, str):
             if normalizer == "dnorm":
+                logger.info("try %s normalizer", "dnorm")
                 try:
                     from dnorm_j import DNorm
 
                     normalizer = DNorm.from_pretrained().normalize
+                    logger.info("use %s normalizer", "dnorm")
                 except:
+                    logger.warning("You did not install dnorm")
+                    logger.warning("use %s normalizer", "Dict")
                     normalizer = DictNormalizer(
                         DEFAULT_MEDNERJ_PATH / "norm_dic.csv"
                     ).normalize
             else:
+                logger.info("use %s normalizer", "Dict")
                 normalizer = DictNormalizer(
                     DEFAULT_MEDNERJ_PATH / "norm_dic.csv"
                 ).normalize
 
         elif isinstance(normalizer, object):
+            logger.info("use %s normalizer", "your original")
             normalizer = normalizer
         else:
             raise TypeError

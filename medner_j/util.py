@@ -1,10 +1,29 @@
 import shutil
 import requests
+from logging import getLogger, StreamHandler, INFO
+
+
+logger = getLogger(__name__)
+handler = StreamHandler()
+handler.setLevel(INFO)
+logger.setLevel(INFO)
+logger.addHandler(handler)
+logger.propagate = False
+
 
 def download_fileobj(src, dst):
+    logger.info("Downloading %s to %s", src, dst)
+
+    file_size = int(requests.head(src).headers["content-length"])
+    logger.info("File size: %s", str(file_size))
+
     res = requests.get(src, stream=True)
+
     with open(dst, "wb") as f:
         shutil.copyfileobj(res.raw, f)
+
+    logger.info("Finish downloading %s to %s", src, dst)
+
 
 def convert_iob_to_dict(tokens, iobs):
     results = []
