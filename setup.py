@@ -30,7 +30,7 @@ setup(
     license=license,
     packages=find_packages(exclude=("tests", "docs")),
     install_requires=[
-        "mecab-python3==1.0.1",
+        "mecab-python3>=0.996.5",
         "torch==1.4.0",
         "transformers==2.8.0",
         "allennlp==0.9.0",
