@@ -1,0 +1,4 @@
+[submodule "docs/_build/html"]
+	path = docs/_build/html
+	url = https://github.com/sociocom/MedNER-J.git
+	branch = gh-pages
