@@ -1,6 +1,6 @@
 # MedNER-J
 ## 概要
-<!-- 日本語の病名抽出器である[MedEX/J](http://sociocom.jp/~data/2017-MEDEX/index.html)の最新バージョンです． -->
+<!-- 日本語の病名抽出器である[MedEX/J](https://sociocom.naist.jp/medex-j/)の最新バージョンです． -->
 
 日本語の医療テキストから病名を抽出するシステムです．
 [MedEX/J](http://sociocom.jp/~data/2017-MEDEX/index.html)の上位バージョンに相当します．
