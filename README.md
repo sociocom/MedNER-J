@@ -11,18 +11,10 @@ Bidirectional Encoder Representations from Transformers (BERT)の特徴量を元
 BERTは[東北大学乾・鈴木研究室配布の文字ベースモデル](https://www.nlp.ecei.tohoku.ac.jp/news-release/3284/)を使用しています．
 
 ## requirements
-- python 3.6.1
-- torch==1.4.0
-- transformers==2.8.0
-- allennlp==0.9.0
-- mecab-python3==1.0.1
+- python>=3.6.1
+- mecab>=0.996.5
 
-一括インストールは以下のコマンドで行えます．
-
-`python3 -m pip install -r requirements.txt`
-
-もしくはパッケージとしてインストールできます
-
+## インストール
 ```pip install git+https://github.com/sociocom/MedNER-J.git```
 
 <!-- ## データ
