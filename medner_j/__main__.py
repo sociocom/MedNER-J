@@ -7,9 +7,9 @@ from .ner import Ner
 from .normalize import load_dict, DictNormalizer
 
 parser = argparse.ArgumentParser()
-parser.add_argument("-i", '--input_file', nargs='?', type=argparse.FileType(),
+parser.add_argument("-i", '--input_file', nargs='?', type=argparse.FileType("r"),
         default=sys.stdin, help="input file path")
-parser.add_argument("-o", '--output_file', nargs='?', type=argparse.FileType(),
+parser.add_argument("-o", '--output_file', nargs='?', type=argparse.FileType("w"),
         default=sys.stdout, help="output file path")
 parser.add_argument("-m", '--model_name', default='BERT', help="model file directory")
 parser.add_argument("-n", '--normalizer', default='dict', help="dictionary file directory")
