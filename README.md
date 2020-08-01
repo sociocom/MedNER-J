@@ -110,6 +110,8 @@ results = model.predict(sents)
 print(results)
 ```
 
+詳細は[こちら](https://sociocom.github.io/MedNER-J/)
+
 ### 自作正規化関数
 ```
 from medner_j import Ner
