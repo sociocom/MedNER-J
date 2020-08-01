@@ -21,6 +21,9 @@ BERTは[東北大学乾・鈴木研究室配布の文字ベースモデル](http
 
 `python3 -m pip install -r requirements.txt`
 
+もしくはパッケージとしてインストールできます
+```pip install git+https://github.com/sociocom/MedNER-J.git```
+
 <!-- ## データ
 - 学習済みモデルファイル
 - 病名正規化用辞書ファイル
