@@ -15,9 +15,9 @@ BERTは[東北大学乾・鈴木研究室配布の文字ベースモデル](http
 - mecab>=0.996.5
 
 ## インストール
-```pip install --upgrade pip```
+```pip3 install --upgrade pip```
 
-```pip install git+https://github.com/sociocom/MedNER-J.git```
+```pip3 install git+https://github.com/sociocom/MedNER-J.git```
 
 <!-- ## データ
 - 学習済みモデルファイル
