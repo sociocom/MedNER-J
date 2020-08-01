@@ -1,3 +1,12 @@
+"""日本語医療文書のための病名抽出システム
+
+症例報告などの医療文書から病名を抽出（・正規化）するシステムです．
+BERT-CRFを使用しています
+
+Args:
+    DEFAULT_CACHE_PATH (env): モデルのダウンロード先指定のための環境変数（default: ~/.cache）
+"""
+
 import pathlib
 from pathlib import Path
 import itertools
@@ -37,6 +46,26 @@ BERT_URL = "http://aoi.naist.jp/MedEXJ2/pretrained"
 
 
 class Ner(object):
+    """NER model
+
+    本体のモデルです．
+    基本的に，from_pretrained()を使用してインスタンスを生成してください．
+
+    Examples:
+        インスタンスの生成::
+
+            from medner_j import Ner
+            model = Ner.from_pretrained()
+
+    Args:
+        label_vocab (dict): {label:label_idx, ...}
+        itol (dict): {label_idx: label, ...}
+        basic_tokenizer (callable): 単語分割用トークナイザ
+        subword_tokenizer (callable): サブワード分割用トークナイザ
+        model (nn.Module): BertCrfモデル
+        normalizer (callable): 単語正規化関数
+    """
+
     def __init__(
         self,
         base_model,
@@ -45,6 +74,18 @@ class Ner(object):
         model_dir=DEFAULT_MODEL_PATH,
         normalizer=None,
     ):
+        """初期化
+
+        非推奨です
+
+        Args:
+            base_model (nn.Module): BertCrfモデル
+            basic_tokenizer (callable): 単語分割用トークナイザ
+            subword_tokenizer (callable): サブワード分割用トークナイザ
+            label_vocab (dict): {label:label_idx, ...}
+            model_dir (pathlib.Path or str): モデルフォルダのpath．labels.txtとfinal.model
+            normalizer (callable): 単語正規化関数
+        """
         if not isinstance(model_dir, pathlib.PurePath):
             model_dir = Path(model_dir)
 
@@ -97,9 +138,6 @@ class Ner(object):
         return 0
 
     def integrate_subwords_tags(self, tags, lengths):
-        # def merge(tags):
-        #     return tags[0]
-
         results = []
 
         for ts, ls in zip(tags, lengths):
@@ -121,6 +159,26 @@ class Ner(object):
         return results
 
     def predict(self, sents, output_format="xml"):
+        """病名抽出
+
+        文のリストを受け取り，病名を抽出するメソッド
+
+        Args:
+            sents (List): 入力文のリスト
+            output_format (str): 出力フォーマット．xml or dict（default: xml）
+
+        Returns:
+            List: 出力のリスト
+
+        出力フォーマット（xml）::
+
+            ["<C>脳梗塞</C>を認める．"]
+
+        出力フォーマット（dict）::
+
+            [{"span": (0, 3), "type": "C", "disease":"脳梗塞", "norm":"脳梗塞"}]
+
+        """
         inputs, lengths, tokens = self.encode(sents)
         results = []
 
@@ -156,6 +214,20 @@ class Ner(object):
 
     @classmethod
     def from_pretrained(cls, model_name="BERT", normalizer="dict"):
+        """学習モデルの読み込み
+
+        学習済みモデルを読み込み，Nerインスタンスを返します．
+        学習済みモデルがキャッシュされていない場合，~/.cacheにモデルのダウンロードを行います．
+        ダウンロード先を指定したい場合は環境変数DEFAULT_CACHE_PATHで指定してください．
+
+        Args:
+            model_name (str): モデル名．現バージョンはBERTのみしか実装していません．
+            normalizer (str or callable): 標準化方法の指定．dict or dnorm．
+
+        Returns:
+            Ner: Nerインスタンス
+        """
+
         assert model_name == "BERT", "BERT以外未実装です"
         if model_name == "BERT":
             model_dir = DEFAULT_MODEL_PATH
