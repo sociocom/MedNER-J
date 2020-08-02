@@ -101,8 +101,8 @@ python -m medner_j -i sample.txt -o output.txt -f xml
 from medner_j import Ner
 
 sents = [
-  "一方で、本邦では体交時の合併症への懸念、マンパワーの不足により腹臥位療法の実施が困難な場合が多い。",
-  "腹臥位以外の時間は両側への完全側臥位を実施した。"
+  "それぞれの関節に関節液貯留は見られなかった",
+  "その後、左半身麻痺、ＣＴにて右前側頭葉の出血を認める。"
   ]
 
 model = Ner.from_pretrained(normalizer="dict")
