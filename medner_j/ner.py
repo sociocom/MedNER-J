@@ -182,7 +182,7 @@ class Ner(object):
         inputs, lengths, tokens = self.encode(sents)
         results = []
 
-        for s_idx in range(0, len(inputs) + 1, 16):
+        for s_idx in range(0, len(inputs), 16):
             e_idx = min(len(inputs), s_idx + 16)
             batch_inputs = inputs[s_idx:e_idx]
             padded_batch_inputs = pad_sequence(
