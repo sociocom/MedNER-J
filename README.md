@@ -19,11 +19,14 @@ BERTは[東北大学乾・鈴木研究室配布の文字ベースモデル](http
 
 mac環境ではbrewでインストールできます．
 
+`brew install mecab mecab-ipadic`
+
 パッケージのインストールは以下のコマンドで行ってください．
 
-```pip install --upgrade pip```
-
-```pip install git+https://github.com/sociocom/MedNER-J.git```
+```
+pip install --upgrade pip
+pip install git+https://github.com/sociocom/MedNER-J.git
+```
 
 <!-- ## データ
 - 学習済みモデルファイル
