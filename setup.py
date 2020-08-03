@@ -37,7 +37,4 @@ setup(
         "tqdm",
         "dnorm_j @ git+https://github.com/sociocom/DNorm-J.git"
     ],
-    dependency_links=[
-        "https://download.pytorch.org/whl/torch_stable.html"
-    ],
 )
