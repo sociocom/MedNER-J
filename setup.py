@@ -13,10 +13,10 @@ from setuptools import setup, find_packages
 #     return requirements
 
 
-with open("README.md") as f:
+with open("README.md", encoding="utf-8") as f:
     readme = f.read()
 
-with open("LICENSE") as f:
+with open("LICENSE", encoding="utf-8") as f:
     license = f.read()
 
 setup(
@@ -36,5 +36,8 @@ setup(
         "allennlp==0.9.0",
         "tqdm",
         "dnorm_j @ git+https://github.com/sociocom/DNorm-J.git"
+    ],
+    dependency_links=[
+        "https://download.pytorch.org/whl/torch_stable.html"
     ],
 )
