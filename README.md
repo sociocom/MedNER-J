@@ -15,6 +15,12 @@ BERTは[東北大学乾・鈴木研究室配布の文字ベースモデル](http
 - mecab>=0.996.5
 
 ## インストール
+[MeCab](https://taku910.github.io/mecab/)のインストールを行ってください．
+
+mac環境ではbrewでインストールできます．
+
+パッケージのインストールは以下のコマンドで行ってください．
+
 ```pip install --upgrade pip```
 
 ```pip install git+https://github.com/sociocom/MedNER-J.git```
@@ -71,11 +77,11 @@ python -m medner_j -i sample.txt -o output.txt -f xml
 
 ## コマンドから
 ### コマンド
-`python3 main.py -i sample.txt -o sample_output.txt -f xml`
+`python3 -m medner_j -i sample.txt -o sample_output.txt -f xml`
 
 もしくは
 
-`python3 main.py -f xml < sample.txt > sample_output.txt`
+`python3 -m medner_j -f xml < sample.txt > sample_output.txt`
 
 ### 入力 (sample.txt)
 ```
