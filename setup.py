@@ -36,4 +36,9 @@ setup(
         "allennlp==1.0.0",
         "dnorm_j @ git+https://github.com/sociocom/DNorm-J.git@fix-versions"
     ],
+    entry_points={
+        "console_scripts": [
+            "mednerj = medner_j.__main__:main"
+            ]
+        }
 )
