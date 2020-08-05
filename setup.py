@@ -33,6 +33,6 @@ setup(
         "mecab-python3>=0.996.5",
         "torch==1.6.0",
         "allennlp==1.1.0rc2",
-        "dnorm_j @ git+https://github.com/sociocom/DNorm-J.git"
+        "dnorm_j @ git+https://github.com/sociocom/DNorm-J.git@fix-versions"
     ],
 )
