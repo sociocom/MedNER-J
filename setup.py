@@ -31,10 +31,8 @@ setup(
     packages=find_packages(exclude=("tests", "docs")),
     install_requires=[
         "mecab-python3>=0.996.5",
-        "torch==1.4.0",
-        "transformers==2.8.0",
-        "allennlp==0.9.0",
-        "tqdm",
+        "torch==1.6.0",
+        "allennlp==1.1.0rc2",
         "dnorm_j @ git+https://github.com/sociocom/DNorm-J.git"
     ],
 )
