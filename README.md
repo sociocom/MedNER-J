@@ -3,7 +3,7 @@
 <!-- 日本語の病名抽出器である[MedEX/J](https://sociocom.naist.jp/medex-j/)の最新バージョンです． -->
 
 日本語の医療テキストから病名を抽出するシステムです．
-[MedEX/J](http://sociocom.jp/~data/2017-MEDEX/index.html)の上位バージョンに相当します．
+[MedEX/J](https://sociocom.naist.jp/medex-j/)の上位バージョンに相当します．
 
 ## 手法
 Bidirectional Encoder Representations from Transformers (BERT)の特徴量を元に，条件付き確率場 (Conditional Random Fields: CRF) で病名の抽出を行っています．
@@ -64,7 +64,7 @@ python -m medner_j -i sample.txt -o output.txt -f xml
 辞書による正規化（dict）と機械学習による正規化（dnorm）があります．
 
 ### 辞書による正規化
-辞書は[万病辞書](http://sociocom.jp/~data/2018-manbyo/index.html)を使用します．
+辞書は[万病辞書](https://sociocom.naist.jp/manbyou-dic/)を使用します．
 略語の展開や類似語検索などは行いません．
 
 フォーマット例：関節液貯留ー＞かんせつえきちょりゅう;icd=E877;lv=C/freq=高;体液貯留
