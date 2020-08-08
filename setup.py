@@ -31,10 +31,14 @@ setup(
     packages=find_packages(exclude=("tests", "docs")),
     install_requires=[
         "mecab-python3>=0.996.5",
-        "torch==1.4.0",
-        "transformers==2.8.0",
-        "allennlp==0.9.0",
-        "tqdm",
-        "dnorm_j @ git+https://github.com/sociocom/DNorm-J.git"
+        "torch==1.5.1",
+        "transformers==2.11.0",
+        "allennlp==1.0.0",
+        "dnorm_j @ git+https://github.com/sociocom/DNorm-J.git@fix-versions"
     ],
+    entry_points={
+        "console_scripts": [
+            "mednerj = medner_j.__main__:main"
+            ]
+        }
 )
