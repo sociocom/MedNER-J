@@ -49,7 +49,7 @@ pip install git+https://github.com/sociocom/MedNER-J.git
 - `-f`：出力フォーマット (`xml` or `json`, default:`xml`)
 
 ```
-python -m medner_j -i sample.txt -o output.txt -f xml
+mednerj -i sample.txt -o output.txt -f xml
 ```
 
 入力ファイルは１行１文のテキストファイルを用意してください．
