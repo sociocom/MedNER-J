@@ -33,7 +33,7 @@ setup(
         "torch==1.5.1",
         "transformers==2.11.0",
         "allennlp==1.0.0",
-        "dnorm_j @ git+https://github.com/sociocom/DNorm-J.git@fix-versions"
+        "dnorm_j @ git+https://github.com/sociocom/DNorm-J.git@windows"
     ],
     entry_points={
         "console_scripts": [
