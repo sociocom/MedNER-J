@@ -100,6 +100,7 @@ class Ner(object):
             torch.load(str(model_dir / "final.model"), map_location=self.device)
         )
         self.model.to(self.device)
+        self.model.eval()
 
         self.basic_tokenizer = basic_tokenizer
         self.subword_tokenizer = subword_tokenizer
