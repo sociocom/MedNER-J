@@ -89,8 +89,8 @@ class Ner(object):
         if not isinstance(model_dir, pathlib.PurePath):
             model_dir = Path(model_dir)
 
-        self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
-        #self.device = "cpu"
+        #self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
+        self.device = "cpu"
 
         label_vocab = create_label_vocab_from_file(str(model_dir / "labels.txt"))
         self.itol = {i: l for l, i in label_vocab.items()}
