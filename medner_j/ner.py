@@ -236,7 +236,7 @@ class Ner(object):
             base_model = BertModel.from_pretrained("cl-tohoku/bert-base-japanese-char")
             basic_tokenizer = ListTokenizer()
             subword_tokenizer = BertJapaneseTokenizer.from_pretrained(
-                "cl-tohoku/bert-base-japanese-char", do_basic_tokenize=False
+                "cl-tohoku/bert-base-japanese-char", do_word_tokenize=False
             )
 
         if not model_dir.parent.is_dir():
