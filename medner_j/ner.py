@@ -41,6 +41,7 @@ DEFAULT_MEDNERJ_PATH = Path(
     os.path.expanduser(os.path.join(DEFAULT_CACHE_PATH, "MedNERJ"))
 )
 DEFAULT_MODEL_PATH = DEFAULT_MEDNERJ_PATH / "pretrained"
+RADIOLOGY_MODEL_PATH = DEFAULT_MEDNERJ_PATH / "radiology"
 
 BERT_URL = "http://aoi.naist.jp/MedEXJ2/pretrained"
 
@@ -229,9 +230,11 @@ class Ner(object):
             Ner: Nerインスタンス
         """
 
-        assert model_name == "BERT", "BERT以外未実装です"
-        if model_name == "BERT":
+        assert model_name in ["BERT", "radiology"], "BERT以外未実装です"
+        if model_name in ["BERT", "radiology"]:
             model_dir = DEFAULT_MODEL_PATH
+            if model_name == "radiology":
+                model_dir = RADIOLOGY_MODEL_PATH
             src_url = BERT_URL
             base_model = BertModel.from_pretrained("cl-tohoku/bert-base-japanese-char")
             basic_tokenizer = ListTokenizer()
