@@ -1,5 +1,6 @@
 # MedNER-J
 ## 概要
+<span style="color: red; ">赤文字</span>
 <!-- 日本語の病名抽出器である[MedEX/J](https://sociocom.naist.jp/medex-j/)の最新バージョンです． -->
 
 日本語の医療テキストから病名を抽出するシステムです．
