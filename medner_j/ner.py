@@ -44,6 +44,7 @@ DEFAULT_MODEL_PATH = DEFAULT_MEDNERJ_PATH / "pretrained"
 RADIOLOGY_MODEL_PATH = DEFAULT_MEDNERJ_PATH / "radiology"
 
 BERT_URL = "http://aoi.naist.jp/MedEXJ2/pretrained"
+RADIOLOGY_URL = "http://aoi.naist.jp/MedEXJ2/radiology"
 
 
 class Ner(object):
@@ -233,9 +234,10 @@ class Ner(object):
         assert model_name in ["BERT", "radiology"], "BERT以外未実装です"
         if model_name in ["BERT", "radiology"]:
             model_dir = DEFAULT_MODEL_PATH
+            src_url = BERT_URL
             if model_name == "radiology":
                 model_dir = RADIOLOGY_MODEL_PATH
-            src_url = BERT_URL
+                src_url = RADIOLOGY_URL
             base_model = BertModel.from_pretrained("cl-tohoku/bert-base-japanese-char")
             basic_tokenizer = ListTokenizer()
             subword_tokenizer = BertJapaneseTokenizer.from_pretrained(
