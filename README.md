@@ -44,7 +44,7 @@ pip install git+https://github.com/sociocom/MedNER-J.git
 ## コマンド
 - `-i`：入力ファイル名
 - `-o`：出力ファイル名
-<!-- - -m：モデル（default: BERT） -->
+- `-m`：モデル （`BERT` or `radiology`, default: `BERT`）
 - `-n`：正規化方法（`dict` or `dnorm`, default: `dict`）
 - `-f`：出力フォーマット (`xml` or `json`, default:`xml`)
 
@@ -114,7 +114,7 @@ sents = [
   "その後、左半身麻痺、ＣＴにて右前側頭葉の出血を認める。"
   ]
 
-model = Ner.from_pretrained(normalizer="dict")
+model = Ner.from_pretrained(model_name="BERT", normalizer="dict")
 results = model.predict(sents)
 print(results)
 ```
