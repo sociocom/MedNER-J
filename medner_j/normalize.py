@@ -1,6 +1,7 @@
 import csv
 from pathlib import Path
 import pathlib
+import unicodedata
 
 from .util import download_fileobj
 
@@ -13,7 +14,8 @@ def load_dict(fn):
     with open(str(fn), 'r') as f:
         reader = csv.reader(f)
         for row in reader:
-            res[row[0]] = row[1]
+            key = unicodedata.normalize('NFKC',row[0])
+            res[key] = row[1]
 
     return res
 
@@ -29,6 +31,7 @@ class DictNormalizer(object):
         self.dic = load_dict(fn)
 
     def normalize(self, word):
+        word = unicodedata.normalize('NFKC', word)
         if word in self.dic:
             return self.dic[word]
         return ''
