@@ -42,9 +42,11 @@ DEFAULT_MEDNERJ_PATH = Path(
 )
 DEFAULT_MODEL_PATH = DEFAULT_MEDNERJ_PATH / "pretrained"
 RADIOLOGY_MODEL_PATH = DEFAULT_MEDNERJ_PATH / "radiology"
+DRUG_MODEL_PATH = DEFAULT_MEDNERJ_PATH / "drug"
 
 BERT_URL = "http://aoi.naist.jp/MedEXJ2/pretrained"
 RADIOLOGY_URL = "http://aoi.naist.jp/MedEXJ2/radiology"
+DRUG_URL = "http://aoi.naist.jp/MedEXJ2/drug"
 
 
 class Ner(object):
@@ -231,13 +233,16 @@ class Ner(object):
             Ner: Nerインスタンス
         """
 
-        assert model_name in ["BERT", "radiology"], "BERT以外未実装です"
-        if model_name in ["BERT", "radiology"]:
+        assert model_name in ["BERT", "radiology", "drug"], "BERT以外未実装です"
+        if model_name in ["BERT", "radiology", "drug"]:
             model_dir = DEFAULT_MODEL_PATH
             src_url = BERT_URL
             if model_name == "radiology":
                 model_dir = RADIOLOGY_MODEL_PATH
                 src_url = RADIOLOGY_URL
+            if model_name == "drug":
+                model_dir = DRUG_MODEL_PATH
+                src_url = DRUG_URL
             base_model = BertModel.from_pretrained("cl-tohoku/bert-base-japanese-char")
             basic_tokenizer = ListTokenizer()
             subword_tokenizer = BertJapaneseTokenizer.from_pretrained(
@@ -310,3 +315,4 @@ if __name__ == "__main__":
     model = Ner.from_pretrained()
     results = model.predict(sents)
     print(results)
+
