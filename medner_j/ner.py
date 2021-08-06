@@ -101,7 +101,7 @@ class Ner(object):
         constraints = allowed_transitions("BIO", {i: w for w, i in label_vocab.items()})
         self.model = BertCrf(base_model, len(label_vocab), constraints)
         self.model.load_state_dict(
-            torch.load(str(model_dir / "final.model"), map_location=self.device)
+            torch.load(str(model_dir / "final.model"), map_location=self.device), strict=False
         )
         self.model.to(self.device)
         self.model.eval()
