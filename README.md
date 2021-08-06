@@ -28,6 +28,8 @@ pip install --upgrade pip
 pip install git+https://github.com/sociocom/MedNER-J.git
 ```
 
+### Windowns
+Windownsでのインストールでうまく行かない方は，[こちら](https://github.com/sociocom/MedNER-J/issues/14#issue-817878180)をご参照ください．
 <!-- ## データ
 - 学習済みモデルファイル
 - 病名正規化用辞書ファイル
