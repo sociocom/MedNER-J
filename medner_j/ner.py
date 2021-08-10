@@ -151,8 +151,9 @@ class Ner(object):
             for l in ls:
                 if l == 0:
                     pre_tag = 0 if idx == 0 else ts[idx - 1]
-                    post_tag = 0 if idx == len(ts) - 1 else ts[idx + 1]
-                    tag = self._infer_space_tag(pre_tag, ts[idx], post_tag)
+                    post_tag = 0 if idx >= len(ts) - 1 else ts[idx + 1]
+                    cur_tag = 0 if idx >= len(ts) else ts[idx]
+                    tag = self._infer_space_tag(pre_tag, cur_tag, post_tag)
                 else:
                     # tag = merge(ts[idx : idx + l])
                     tag = ts[idx : idx + l][0]
@@ -302,17 +303,6 @@ class Ner(object):
 
 
 if __name__ == "__main__":
-    fn = Path(sys.argv[1])
-    sents = []
-    with open(str(fn), "r") as f:
-        for line in f:
-            line = line.rstrip()
-            if not line:
-                continue
-            sents.append(line)
-
-    print(sents)
-    model = Ner.from_pretrained()
-    results = model.predict(sents)
-    print(results)
+    model = Ner.from_pretrained(model_name='BERT', normalizer='dict')
+    model.predict(['糖尿病　'], output_format='dict')
 
