@@ -31,7 +31,7 @@ setup(
     packages=find_packages(exclude=("tests", "docs")),
     install_requires=[
         "fugashi",
-        "ipadic"
+        "ipadic",
         "allennlp<=2.6.0",
         "dnorm_j @ git+https://github.com/sociocom/DNorm-J.git@fix-versions"
     ],
