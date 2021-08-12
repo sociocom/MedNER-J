@@ -30,9 +30,8 @@ setup(
     license=license,
     packages=find_packages(exclude=("tests", "docs")),
     install_requires=[
-        "mecab-python3",
-        "torch",
-        "transformers",
+        "fugashi",
+        "ipadic"
         "allennlp<=2.6.0",
         "dnorm_j @ git+https://github.com/sociocom/DNorm-J.git@fix-versions"
     ],
