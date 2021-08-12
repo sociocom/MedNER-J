@@ -32,6 +32,7 @@ setup(
     install_requires=[
         "fugashi",
         "ipadic",
+        "huggingface_hub==0.0.12",
         "allennlp<=2.6.0",
         "dnorm_j @ git+https://github.com/sociocom/DNorm-J.git@fix-versions"
     ],
