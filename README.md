@@ -144,3 +144,7 @@ model = Ner.from_pretrained(normalizer=UserNormalizer.normalize)
 
 - 開発者は仮想環境内で `install.sh` を実行してください
 - `fresh_install.sh` を使うとモデルファイルなどのキャッシュも削除します
+
+## コントリビュータ
+- 氏家翔吾 （奈良先端科学技術大学院大学）
+- 矢田竣太郎 （奈良先端科学技術大学院大学）
